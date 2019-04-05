@@ -21,32 +21,31 @@ int main(){
 
 
 start:
-    cout<<" Welcome to QRNG data analysis program.\n\n Coded by Kamil KAYA \n Ozyegin University \n Department of Electric Electronic Engineering. \n\n "<<endl;
     float Limit;
     string readFileName, writeFileName;
 
-    cout<<" Please enter input file name :";
+    cout<<" Input file name :";
     while(readFileName=="")cin>>readFileName;
 
-    cout<<" Please enter output file name :";
+    cout<<" Output file name :";
     while(writeFileName=="")cin>>writeFileName;
 
-    cout<<" Please enter high logic limit (float) :";
+    cout<<" High logic threshold level (Volt ex. 0.05) :";
     cin>>Limit;
 
-    cout<<" Please enter base number (2,10,16) :";
+    cout<<" Base number for output file (2,10,16) :";
     int BaseNumber;
     cin>>BaseNumber;
 
-    cout<<" Please enter size of byte :";
+    cout<<" Size of reading byte :";
     unsigned long long int SizeofData;
     cin>>SizeofData;
 
-    cout<<" Please enter length of bit :";
-    unsigned int SizeofBit;
-    cin>>SizeofBit;
+    //cout<<" Please enter length of bit :";
+    unsigned int SizeofBit=8;
+    //cin>>SizeofBit;
 
-    cout<<" Please enter scanning step :";
+    cout<<" Scanning step :";
     unsigned int Step;
     cin>>Step;
 
@@ -65,7 +64,7 @@ start:
 
     myRandomNumbers.StartAnalysis();
 
-     myRandomNumbers.close();
+    myRandomNumbers.close();
 
     return 0;
 }

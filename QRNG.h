@@ -24,7 +24,11 @@ class QRNG{
         unsigned int Step;
         unsigned int BitLength;
         unsigned long SizeOfData;
+        unsigned int sizeOfBitOne;
+        unsigned int sizeOfBitZero;
     public:
+        QRNG();
+        ~QRNG();
         void Init(std::string,std::string,float,int,unsigned long long int,unsigned int,unsigned int);
         uint8_t StartAnalysis();
         void close();
