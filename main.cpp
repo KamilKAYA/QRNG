@@ -33,12 +33,12 @@ start:
     cout<<" High logic threshold level (Volt ex. 0.05) :";
     cin>>Limit;
 
-    cout<<" Base number for output file (2,10,16) :";
-    int BaseNumber;
-    cin>>BaseNumber;
+    //cout<<" Base number for output file (2,10,16) :";
+    int BaseNumber=2;
+    //cin>>BaseNumber;
 
     cout<<" Size of reading byte :";
-    unsigned long long int SizeofData;
+    unsigned long long int SizeofData=0;
     cin>>SizeofData;
 
     //cout<<" Please enter length of bit :";

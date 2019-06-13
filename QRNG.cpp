@@ -23,7 +23,12 @@ void QRNG::Init(std::string readingFile,std::string writingFile,float ThresholdV
     //std::string ofile="//"+this->writingFileName+"//"+this->writingFileName+".bin";
 
     std::string ofile;
-    if(this->Base==2)ofile=createPath+"/"+this->writingFileName+".dat";
+    std::string ofileraw;
+
+    if(this->Base==2){
+        ofile=createPath+"/"+this->writingFileName+".dat";
+        ofileraw=createPath+"/"+this->writingFileName+"_raw.dat";
+    }
 
     if(this->Base==10)ofile=createPath+"/"+this->writingFileName+".dec";
 
@@ -35,12 +40,32 @@ void QRNG::Init(std::string readingFile,std::string writingFile,float ThresholdV
         std::cout<<"No such file :"<<this->readingFileName<<std::endl;
     }
 
-    this->exportFile.open(ofile.c_str(),std::ios::app | std::ios::binary);
+    this->exportFile.open(ofile.c_str(),std::ios::app); // | std::ios::binary
+    this->exportFileRaw.open(ofileraw.c_str(),std::ios::app); // | std::ios::binary
     //this->exportFile<<"Random number bin file created by kamil.kaya@Ozyegin";
     this->line=0;
     //this->exportFile.close();
 }
 
+
+std::bitset<8> LFSR(std::bitset<8> input){   // Linear Feedback Shift Register
+    std::bitset<1> temp;
+    static std::bitset<8> data;
+    input=data^input;
+    data=input;
+    for(int i=0; i<8; i++){
+        temp[0]=input[1]^input[0];
+        input=input>>1;
+        input[7]=temp[0];
+    }
+    return input;
+}
+
+std::bitset<8> XOR(std::bitset<8> input){
+    static std::bitset<8> data;
+    data=data^input;
+    return data;
+}
 
 uint8_t QRNG::StartAnalysis(){
     this->sizeOfBitOne=0;
@@ -57,10 +82,10 @@ uint8_t QRNG::StartAnalysis(){
             if(this->importFile.fail())this->complate=true;
 
             if((readingLine%(this->Step))==0){
-                if((this->voltage>=this->Threshold) /* ||  (this->voltage<=absCoef) */ ){
+                if((this->voltage>=this->Threshold)  ||  (this->voltage<=absCoef)){ //||  (this->voltage<=absCoef)
                     data[bitCount]=1;
                     this->sizeOfBitOne++;
-                    data_dec[0] |=1UL<<bitCount;
+                    //data_dec[0] |=1UL<<bitCount;
                  }else {
                     data[bitCount]=0;
                     this->sizeOfBitZero++;
@@ -70,20 +95,26 @@ uint8_t QRNG::StartAnalysis(){
 
             if(bitCount==this->BitLength){
                 if(this->SizeOfData<this->line)this->complate=true;
+                this->exportFileRaw<<data;
+                this->exportFile<<LFSR(data);
+
+                /*
                 if(this->Base==2){
                     //std::cout<<data<<std::endl;
-                    this->exportFile<<data<<"\t";
+                    this->exportFile<<data;
                 }
                 if(this->Base==10){
                     //std::cout<<(int)data_dec[0]<<std::endl;
-                    this->exportFile<<(int)data_dec[0]<<"\n";
+                    //this->exportFile<<(int)data_dec[0]<<"\n";
                 }
                 if(this->Base==16){
-                    //std::cout<<(int)data_dec[0]<<std::endl;
-                    this->exportFile.write((char*)data_dec,1);
+                    //std::cout<<std::hex<<(int)data_dec[0];
+                    //this->exportFile<<std::hex<<(int)data_dec[0];
+                    //this->exportFile.write((char*)data_dec,1);
                     //this->exportFile<<data_dec<<"\t";
                 }
-                memset(data_dec,0,4);
+                */
+                data_dec[0]=0;
                 bitCount=0;
                 this->line++;
             }
@@ -99,7 +130,7 @@ void QRNG::close(){
 }
 
 QRNG::QRNG(){
-    std::cout<<" QRNG Version:2.10"<<std::endl;
+    std::cout<<" QRNG Version:3.10"<<std::endl;
     std::cout<<" Welcome to QRNG data analysis program.\n\n Coded by Kamil KAYA \n Ozyegin University \n Department of Electric Electronic Engineering. \n\n "<<std::endl;
 }
 QRNG::~QRNG(){

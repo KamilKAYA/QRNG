@@ -16,6 +16,7 @@ class QRNG{
         std::string readingFileName;
         std::string writingFileName;
         std::ofstream exportFile;
+        std::ofstream exportFileRaw;
         std::ifstream importFile;
         unsigned long long int line;
         float timeData, voltage;
