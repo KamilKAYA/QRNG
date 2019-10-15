@@ -17,10 +17,14 @@ private:
 public:
     filesystem opening;
     filesystem saving;
+    uint64_t   line;
     bool open(filesystem opening);
     bool save(filesystem saving);
     std::string read();
     bool write(std::string data);
+    bool write(double data);
+    std::string removeBefore(std::string str, char character);
+    double strToDouble(std::string str);
 
     FILECONTROL();
 };

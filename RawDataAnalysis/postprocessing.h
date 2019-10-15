@@ -1,0 +1,11 @@
+#ifndef POSTPROCESSING_H
+#define POSTPROCESSING_H
+
+
+class POSTPROCESSING
+{
+public:
+    POSTPROCESSING();
+};
+
+#endif // POSTPROCESSING_H

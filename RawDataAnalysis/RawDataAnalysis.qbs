@@ -6,6 +6,8 @@ CppApplication {
         "filecontrol.cpp",
         "filecontrol.h",
         "main.cpp",
+        "postprocessing.cpp",
+        "postprocessing.h",
     ]
 
     Group {     // Properties for the produced executable
