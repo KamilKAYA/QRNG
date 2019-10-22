@@ -18,26 +18,29 @@ int main()
     string writingpath;
 
     cout<<" Ozyegin University, Department of EEE"<<endl;
-    cout<<" Please write file path where program will read : ";
-    cin>>readingpath;
-    cout<<" Please write file name where program will read : ";
+    //cout<<" Please write file path where program will read : ";
+    //cin>>readingpath;
+    cout<<" Please write reading file name with path : ";
     cin>>readingfile;
-    cout<<" Please write file path where program will write : ";
-    cin>>writingpath;
-    cout<<" Please write file name where program will write : ";
+    //cout<<" Please write file path where program will write : ";
+    //cin>>writingpath;
+    cout<<" Please write saving file name with path : ";
     cin>>writingfile;
 
-    readCSV.open({readingpath,readingfile});
-    saveDAT.save({writingpath,writingfile});
+    //readCSV.open({readingpath,readingfile});
+    //saveDAT.save({writingpath,writingfile});
+    readCSV.open({readingfile});
+    saveDAT.save({writingfile});
 
-    for(int i=0; i<1000000; i++){
+    static uint64_t line=0;
+
+    while(readCSV.lineIsAvailable()){
         string readline=readCSV.read();
         readline=readCSV.removeBefore(readline,',');
         double rawData=readCSV.strToDouble(readline);
         saveDAT.write(rawData);
-
-
-
+        cout<<"Total reading line : "<<line<<" Data is : "<<rawData<<endl;
+        line++;
     }
     return 0;
 }

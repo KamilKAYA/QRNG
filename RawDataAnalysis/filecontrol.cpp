@@ -23,6 +23,19 @@ bool FILECONTROL::save(filesystem saving){
     return true;
 }
 
+bool FILECONTROL::open(std::string fullpath){
+    this->openingFullPath=fullpath;
+    this->importFile.open(fullpath,std::ifstream::binary);
+    if(this->importFile.is_open())return true;
+    else return false;
+}
+
+bool FILECONTROL::save(std::string fullpath){
+    this->savingFullPath=fullpath;
+    this->saveFile.open(fullpath,std::ios::app); // | std::ios::binary
+    return true;
+}
+
 std::string FILECONTROL::read(){
     line++;
     std::string lineData;
@@ -50,5 +63,9 @@ std::string FILECONTROL::removeBefore(std::string str, char character){
 double FILECONTROL::strToDouble(std::string str){
     double result=std::stod(str);
     return result;
+}
+
+bool FILECONTROL::lineIsAvailable(){
+    return !(this->importFile.fail());
 }
 
